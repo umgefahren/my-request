@@ -1,5 +1,5 @@
 use std::borrow::Cow;
-use actix_web::http::StatusCode;
+use actix_web::http::{StatusCode, Version};
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Responder, HttpMessage};
 use lazy_static::lazy_static;
 use tera::{Context, Tera};
@@ -11,6 +11,17 @@ lazy_static! {
         tera.autoescape_on(vec![".html"]);
         tera
     };
+}
+
+fn version_to_str(version: Version) -> &'static str {
+    match version {
+        Version::HTTP_09 => "HTTP/0.9",
+        Version::HTTP_10 => "HTTP/1.0",
+        Version::HTTP_11 => "HTTP/1.1",
+        Version::HTTP_2 => "HTTP/2",
+        Version::HTTP_3 => "HTTP/3",
+        _ => "unknown",
+    }
 }
 
 async fn index(req: HttpRequest) -> impl Responder {
@@ -34,6 +45,8 @@ async fn index(req: HttpRequest) -> impl Responder {
     };
 
     context.insert("cookies", &cookies);
+
+    context.insert("version", version_to_str(req.version()));
 
     context.insert("path", req.path());
 
