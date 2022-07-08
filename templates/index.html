@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Request</title>
+    <style>
+        table, th, td {
+            border: 1px solid;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        What was my HTTP Request?
+    </h1>
+    <h2>
+        Content Type: {{ contentType }}
+    </h2>
+    <h2>
+        Path: {{ path }}
+    </h2>
+    <h2>
+        My Ip: {{ remote }}
+    </h2>
+    <h2>
+        Cookies
+    </h2>
+    <table>
+        <tr>
+            <th>
+                Cookie Name
+            </th>
+            <th>
+                Cookie Value
+            </th>
+        </tr>
+        {% for cookie in cookies %}
+        <tr>
+            <td>
+                {{ cookie.0 }}
+            </td>
+            <td>
+                {{ cookie.1 }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>
+        Headers
+    </h2>
+    <table>
+        <tr>
+            <th>
+                Header Name
+            </th>
+            <th>
+                Header Value
+            </th>
+
+        {% for header in headers %}
+        <tr>
+            <td>
+               {{ header.0 }}
+            </td>
+            <td>
+                {{ header.1 }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
